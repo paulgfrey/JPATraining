@@ -8,6 +8,7 @@ import javax.inject.Named;
 
 import com.webpage.entity.BankAccount;
 import com.webpage.entity.Owner;
+import com.webpage.entity.PhoneNumber;
 
 @Named
 @RequestScoped
@@ -19,10 +20,14 @@ public class BankController {
 	
 	private Owner owner;
 	
+	private PhoneNumber phone;
+	
 	public BankController() {
 		account = new BankAccount();
 		owner = new Owner();
 		account.setOwner(owner);
+		phone = new PhoneNumber();
+		owner.addNumber(phone);
 	}
 	
 	public Owner getOwner() {
@@ -93,5 +98,13 @@ public class BankController {
 
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+
+	public PhoneNumber getPhone() {
+		return phone;
+	}
+
+	public void setPhone(PhoneNumber phone) {
+		this.phone = phone;
 	}
 }

@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 
 import com.webpage.entity.BankAccount;
 import com.webpage.entity.Owner;
+import com.webpage.entity.PhoneNumber;
 
 /**
  * Session Bean implementation class Teller
@@ -102,6 +103,37 @@ public class Teller implements TellerLocal {
 	@Override
 	public Owner findOwnerById(int ownerId) {
 		return em.find(Owner.class, ownerId);
+	}
+
+	@Override
+	public Owner addNumber(int ownerId, PhoneNumber phoneNumber) {
+		Owner owner = em.find(Owner.class, ownerId);
+		owner.addNumber(phoneNumber);
+		return owner;
+	}
+
+	@Override
+	public List<BankAccount> findAccountForAreaCode(int areaCode) {
+		String statement = "SELECT ba " + 
+				"FROM BankAccount ba " + 
+				"JOIN ba.owner o " +		
+				"JOIN o.phoneNumbers pn " +
+				"WHERE pn.areaCode = :areaCode";
+		TypedQuery<BankAccount> query = em.createQuery(statement, BankAccount.class).setParameter("areaCode", areaCode);
+		
+		return query.getResultList();
+	}
+
+	@Override
+	public List<PhoneNumber> findNumbersForAmount(double amount) {
+		String statement ="SELECT pn " + 
+				"FROM BankAccount ba " + 
+				"JOIN ba.owner o " +
+				"JOIN o.phoneNumbers pn " + 
+				"where ba.balance >= :amt";
+		TypedQuery<PhoneNumber> query = em.createQuery(statement, PhoneNumber.class).setParameter("amt", amount);
+		
+		return query.getResultList();
 	}
 
 }

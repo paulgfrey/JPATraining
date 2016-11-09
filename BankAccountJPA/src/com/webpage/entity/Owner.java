@@ -2,7 +2,11 @@ package com.webpage.entity;
 
 import java.io.Serializable;
 import java.lang.String;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.*;
 
 /**
@@ -24,6 +28,8 @@ public class Owner implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date dateOfBirth;
 	private static final long serialVersionUID = 1L;
+	@OneToMany(cascade={CascadeType.ALL}, mappedBy="owner", fetch=FetchType.EAGER)
+	private List<PhoneNumber> phoneNumbers = new ArrayList<PhoneNumber>();
 
 	public Owner() {
 		super();
@@ -55,6 +61,15 @@ public class Owner implements Serializable {
 
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
+	}
+	
+	public void addNumber(PhoneNumber number) {
+		this.phoneNumbers.add(number);
+		number.setOwner(this);
+	}
+	
+	public List<PhoneNumber> getPhoneNumbers() {
+		return(Collections.unmodifiableList(phoneNumbers));
 	}
    
 }

@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core">
+
+
+<head>
+    <title>More Query Searches</title>
+</head>
+
+<body>
+<h1>More Query Searches</h1>
+
+<h:link outcome="createAccountJPA">Create a new Account</h:link><br/>
+<h:form>
+	Enter an area code: 
+	<h:inputText value="#{queryController.areaCode}"/> 
+	<h:commandButton value="Area Code Search" action="#{queryController.areaCodeQuery}"/><br/>
+	Enter an amount:
+	<h:inputText value="#{queryController.amount}"/> 
+	<h:commandButton value="Telemarketers Click Here" action="#{queryController.phoneQuery}"/><br/>
+</h:form>
+<br/>
+
+<h2>Search Results</h2>
+<ui:repeat value="#{queryController.accountResults}" var="account">
+	<h:outputText value="Account #{account.id} owned by " />
+	<h:link outcome="ownerDetails" value="#{account.owner.name}">
+		<f:param name="id" value="#{account.owner.id}"></f:param>
+	</h:link>
+	<h:outputText value=" has a balance of #{account.balance}"/><br/>
+</ui:repeat>
+
+<ui:repeat value="#{queryController.phoneResults}" var="phone">
+( <h:outputText value="#{phone.areaCode}" /> ) <h:outputText value="#{phone.number}" /><br/>
+</ui:repeat>
+
+
+</body>
+</html>

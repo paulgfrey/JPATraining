@@ -26,8 +26,21 @@
 	<f:convertDateTime dateStyle="short" type="date"/>
 </h:outputText> <br/>
 <b>Owner address:</b> #{ownerController.owner.address} <br/>
-
-
+<h2>Add a Phone Number</h2>
+Area Code: <h:inputText value="#{ownerController.phoneToAdd.areaCode}"/><br/>
+Number: <h:inputText value="#{ownerController.phoneToAdd.number}"/><br/>
+<h:commandButton action="#{ownerController.addPhone}" value="Add New Phone Number"/>
 </h:form>
+<h2>Phone Numbers</h2>
+<h:dataTable value="#{ownerController.owner.phoneNumbers}" var="phone">
+	<h:column>
+		<f:facet name="header">Area Code</f:facet>
+		<h:outputText value="#{phone.areaCode}"/>
+	</h:column>
+	<h:column>
+		<f:facet name="header">Number</f:facet>
+		<h:outputText value="#{phone.number}"/>
+	</h:column>
+</h:dataTable>
 </body>
 </html>

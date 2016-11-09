@@ -23,6 +23,10 @@ Owner Date of Birth:
 Owner Address:
 <h:inputText value="#{bankController.owner.address}"/><br/>
 
+Phone number: 
+<h:inputText value="#{bankController.phone.areaCode}" size="5"/>
+<h:inputText value="#{bankController.phone.number}" size="20"/><br/>
+
 Balance: <h:inputText value="#{bankController.account.balance}" size="20"/><br/>
 <h:commandButton value="Add Account" action="#{bankController.createAccount}"/>
 </h:form>
