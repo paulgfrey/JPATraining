@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core">
+
+
+<head>
+    <title>Modify Account</title>
+</head>
+
+<body>
+<h1>Modify Account</h1>
+
+<h:link outcome="createAccountJPA">Create a new Account</h:link><br/>
+<h:form>
+	Account id:
+	<h:inputText value="#{bankController.idToModify}"/> <br/>
+	Amount:
+	<h:inputText value="#{bankController.amount}"/> <br/>
+	<h:commandButton value="Deposit" action="#{bankController.deposit}"/>
+	<h:commandButton value="Withdraw" action="#{bankController.withdraw}"/>
+	<h:commandButton value="Close Account" action="#{bankController.closeAccount}"/>
+</h:form>
+
+</body>
+</html>

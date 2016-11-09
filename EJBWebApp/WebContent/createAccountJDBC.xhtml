@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core">
+
+
+<head>
+    <title>Create a new account</title>
+</head>
+
+<body>
+<h1>Create A Bank Account (JDBC)</h1>
+
+<h:outputText value="#{createJDBCController.message}"></h:outputText>
+
+<h:form>
+Name: <h:inputText value="#{createJDBCController.ownerName}" size="20"/><br/>
+Balance: <h:inputText value="#{createJDBCController.balance}" size="20"/><br/>
+ID: <h:inputText value="#{createJDBCController.id}" size="20"/><br/>
+<h:commandButton value="Add Account" action="#{createJDBCController.createAccount}"/>
+</h:form>
+
+</body>
+</html>
