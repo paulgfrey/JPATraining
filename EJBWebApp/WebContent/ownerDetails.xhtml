@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core">
+
+
+<head>
+    <title>Owner Details</title>
+</head>
+<f:metadata>
+	<f:viewParam name="id" value="#{ownerController.ownerIdToDisplay}"/>
+	<f:event listener="#{ownerController.loadOwnerDetails}" type="preRenderView"/>
+</f:metadata>
+
+<body>
+<h1>Owner Details</h1>
+<h:form>
+<b>ID: </b> <h:inputText value="#{ownerController.ownerIdToDisplay}"></h:inputText> 
+<h:commandButton action="#{ownerController.displayOwner}" value="Display Another Owner"/><br/>
+<b>Owner: </b> #{ownerController.owner.name}<br/>
+<b>Owner Date of Birth:</b>
+<h:outputText value="#{ownerController.owner.dateOfBirth}">
+	<f:convertDateTime dateStyle="short" type="date"/>
+</h:outputText> <br/>
+<b>Owner address:</b> #{ownerController.owner.address} <br/>
+
+
+</h:form>
+</body>
+</html>

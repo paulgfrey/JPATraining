@@ -2,11 +2,14 @@ package com.webpage.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -25,9 +28,18 @@ public class BankAccount implements Serializable {
 	@Column(name="BALANCE")
 	private double balance;
 	
-	@Column(name="OWNERNAME")
-	private String ownername;
+	@OneToOne(cascade={CascadeType.ALL})
+	@JoinColumn(name="OWNER_ID")
+	private Owner owner;
 	
+	public Owner getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Owner owner) {
+		this.owner = owner;
+	}
+
 	public void deposit(double amount) {
 		this.setBalance(getBalance() + amount);
 	}
@@ -50,14 +62,6 @@ public class BankAccount implements Serializable {
 
 	public void setBalance(double balance) {
 		this.balance = balance;
-	}
-
-	public String getOwnername() {
-		return ownername;
-	}
-
-	public void setOwnername(String ownername) {
-		this.ownername = ownername;
 	}
 
 	private static final long serialVersionUID = 1L;

@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core">
+
+
+<head>
+    <title>Account Search</title>
+</head>
+
+<body>
+<h1>Account Search</h1>
+
+<h:link outcome="createAccountJPA">Create a new Account</h:link><br/>
+<h:form>
+	Enter an id:
+	<h:inputText value="#{searchController.idToSearch}"/> 
+	<h:commandButton value="ID Search" action="#{searchController.accountIDSearch}"/><br/>
+	Enter an amount:
+	<h:inputText value="#{searchController.queryAmount}"/> 
+	<h:commandButton value="Balance Search" action="#{searchController.balanceSearch}"/><br/>
+	<h:commandButton value="List All Accounts" action="#{searchController.listAllAccounts}"/>
+</h:form>
+<br/>
+<ui:repeat value="#{searchController.results}" var="account">
+	<h:outputText value="Account #{account.id} owned by " />
+	<h:link outcome="ownerDetails" value="#{account.owner.name}">
+		<f:param name="id" value="#{account.owner.id}"></f:param>
+	</h:link>
+	<h:outputText value=" has a balance of #{account.balance}"/><br/>
+
+</ui:repeat>
+
+
+
+</body>
+</html>

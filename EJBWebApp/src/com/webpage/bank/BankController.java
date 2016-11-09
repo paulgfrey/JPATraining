@@ -6,8 +6,8 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
-import com.ibm.ws.sib.processor.impl.interfaces.ExternalConsumerLock;
 import com.webpage.entity.BankAccount;
+import com.webpage.entity.Owner;
 
 @Named
 @RequestScoped
@@ -17,6 +17,22 @@ public class BankController {
 	
 	private BankAccount account = new BankAccount();
 	
+	private Owner owner;
+	
+	public BankController() {
+		account = new BankAccount();
+		owner = new Owner();
+		account.setOwner(owner);
+	}
+	
+	public Owner getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Owner owner) {
+		this.owner = owner;
+	}
+
 	private int idToModify;
 	private double amount;
 	

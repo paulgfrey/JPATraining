@@ -19,7 +19,13 @@
 <h1>Account Details</h1>
 
 <b>ID: </b> #{bankController.account.id}<br/>
-<b>Owner: </b> #{bankController.account.ownername}<br/>
+<b>Owner: </b> #{bankController.account.owner.name}<br/>
+Owner Date of Birth: 
+<h:outputText value="#{bankController.owner.dateOfBirth}">
+	<f:convertDateTime dateStyle="short" type="date"/>
+</h:outputText><br/>
+Owner Address:
+<h:outputText value="#{bankController.owner.address}"/><br/>
 <b>Balance: </b> #{bankController.account.balance}<br/>
 
 <h:link outcome="createAccountJPA">Create a new Account</h:link><br/>

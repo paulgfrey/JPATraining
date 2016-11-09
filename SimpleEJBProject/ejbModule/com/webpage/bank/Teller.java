@@ -3,15 +3,18 @@ package com.webpage.bank;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.sql.DataSource;
 
 import com.webpage.entity.BankAccount;
+import com.webpage.entity.Owner;
 
 /**
  * Session Bean implementation class Teller
@@ -77,6 +80,28 @@ public class Teller implements TellerLocal {
 	public void closeAccount(int id) {
 		BankAccount ba = em.find(BankAccount.class, id);
 		em.remove(ba);
+	}
+
+	@Override
+	public List<BankAccount> listAllAccounts() {
+		TypedQuery<BankAccount> query = em.createQuery(
+				"SELECT a from BankAccount a", BankAccount.class);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<BankAccount> findWithBalance(double amount) {
+		String statement = 
+				"SELECT ba from BankAccount ba where ba.balance " + 
+			    " >= :amt ORDER BY ba.owner.name ASC";
+		
+		TypedQuery<BankAccount> query = em.createQuery(statement, BankAccount.class).setParameter("amt", amount);
+		return(query.getResultList());
+	}
+
+	@Override
+	public Owner findOwnerById(int ownerId) {
+		return em.find(Owner.class, ownerId);
 	}
 
 }

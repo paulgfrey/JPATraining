@@ -3,5 +3,9 @@
 	<persistence-unit name="BankAccountJPA" transaction-type="JTA">
 		<jta-data-source>jdbc/BankDS</jta-data-source>
 		<class>com.webpage.entity.BankAccount</class>
+		<class>com.webpage.entity.Owner</class>
+		<properties>
+			<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)" />
+		</properties>
 	</persistence-unit>
 </persistence>
