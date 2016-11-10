@@ -11,11 +11,20 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.sql.DataSource;
 
 import com.webpage.entity.BankAccount;
+import com.webpage.entity.BankAccount_;
 import com.webpage.entity.Owner;
+import com.webpage.entity.Owner_;
 import com.webpage.entity.PhoneNumber;
+import com.webpage.entity.SavingsAccount;
 
 /**
  * Session Bean implementation class Teller
@@ -85,18 +94,37 @@ public class Teller implements TellerLocal {
 
 	@Override
 	public List<BankAccount> listAllAccounts() {
-		TypedQuery<BankAccount> query = em.createQuery(
-				"SELECT a from BankAccount a", BankAccount.class);
+		CriteriaQuery<BankAccount> cq = em.getCriteriaBuilder().createQuery(BankAccount.class);
+		Root<BankAccount> fromEntity = cq.from(BankAccount.class);
+		cq.select(fromEntity);
+		TypedQuery<BankAccount> query = em.createQuery(cq);
+		System.out.println("Using simple criteria query");
+		
 		return query.getResultList();
 	}
 
 	@Override
-	public List<BankAccount> findWithBalance(double amount) {
-		String statement = 
-				"SELECT ba from BankAccount ba where ba.balance " + 
-			    " >= :amt ORDER BY ba.owner.name ASC";
+	public List<BankAccount> findWithBalance(double amount, boolean sorted) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<BankAccount> cq = 
+				cb.createQuery(BankAccount.class);
+		ParameterExpression<Double> balance = cb.parameter(Double.class);
+		Root<BankAccount> fromEntity = cq.from(BankAccount.class);
+		cq.select(fromEntity);
 		
-		TypedQuery<BankAccount> query = em.createQuery(statement, BankAccount.class).setParameter("amt", amount);
+		Predicate predicate = cb.ge(
+				fromEntity.get(BankAccount_.balance), balance);
+		cq.where(predicate);
+		if(sorted) {
+			Path<String> ownerNamePath = 
+					fromEntity.get(BankAccount_.owner)
+					.get(Owner_.name);
+			cq.orderBy(cb.asc(ownerNamePath));					
+		}
+		TypedQuery<BankAccount> query = em.createQuery(cq);
+		query.setParameter(balance, amount);
+		
+		System.out.println("Using complex criteria query");
 		return(query.getResultList());
 	}
 
@@ -133,6 +161,18 @@ public class Teller implements TellerLocal {
 				"where ba.balance >= :amt";
 		TypedQuery<PhoneNumber> query = em.createQuery(statement, PhoneNumber.class).setParameter("amt", amount);
 		
+		return query.getResultList();
+	}
+
+	@Override
+	public List<SavingsAccount> listAllSavingsAccounts() {
+		CriteriaQuery<SavingsAccount> cq = em.getCriteriaBuilder().
+				createQuery(SavingsAccount.class);
+		Root<SavingsAccount> fromEntity = cq.from(SavingsAccount.class);
+		cq.select(fromEntity);
+		TypedQuery<SavingsAccount> query = em.createQuery(cq);
+		System.out.println("Using criteria query for savings account");
+
 		return query.getResultList();
 	}
 

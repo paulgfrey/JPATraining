@@ -15,10 +15,11 @@ public class SearchController {
 	@Inject
 	private TellerLocal teller;
 	
-	private List<BankAccount> results = new ArrayList<BankAccount>();
+	private List<? extends BankAccount> results = new ArrayList<BankAccount>();
 	
 	private int idToSearch;
 	private int queryAmount;
+	private boolean sortResults;
 	
 	public String accountIDSearch() {
 		
@@ -30,7 +31,7 @@ public class SearchController {
 	}
 	
 	public void balanceSearch() {
-		results = teller.findWithBalance(queryAmount);
+		results = teller.findWithBalance(queryAmount, sortResults);
 	}
 	
 	public int getIdToSearch() {
@@ -49,11 +50,21 @@ public class SearchController {
 		this.queryAmount = amount;
 	}
 
-	public List<BankAccount> getResults() {
+	public List<? extends BankAccount> getResults() {
 		return results;
 	}
 
-	
+	public void listAllSavingsAccounts() {
+		results = teller.listAllSavingsAccounts();
+	}
+
+	public boolean isSortResults() {
+		return sortResults;
+	}
+
+	public void setSortResults(boolean sortResults) {
+		this.sortResults = sortResults;
+	}
 	
 
 }

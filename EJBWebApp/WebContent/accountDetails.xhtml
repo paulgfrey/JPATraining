@@ -27,8 +27,12 @@ Owner Date of Birth:
 Owner Address:
 <h:outputText value="#{bankController.owner.address}"/><br/>
 <b>Balance: </b> #{bankController.account.balance}<br/>
-
-<h:link outcome="createAccountJPA">Create a new Account</h:link><br/>
+<h:panelGroup rendered="#{bankController.account['class'].simpleName eq 'SavingsAccount'}">
+	<b>Interest Rate: </b> #{bankController.account.interestRate }<br/>
+</h:panelGroup>
+<h:form>
+	<h:commandLink action="#{bankController.clearAccountAndGoToCreate }">Create a new Account</h:commandLink>
+</h:form>
 <h:link outcome="accountActions">Account Actions</h:link><br/>
 </body>
 </html>

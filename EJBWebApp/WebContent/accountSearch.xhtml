@@ -14,15 +14,20 @@
 <body>
 <h1>Account Search</h1>
 
-<h:link outcome="createAccountJPA">Create a new Account</h:link><br/>
+<h:form>
+<h:commandButton action="#{bankController.clearAccountAndGoToCreate }">Create a new Account
+</h:commandButton><br/>
+</h:form>
 <h:form>
 	Enter an id:
 	<h:inputText value="#{searchController.idToSearch}"/> 
 	<h:commandButton value="ID Search" action="#{searchController.accountIDSearch}"/><br/>
 	Enter an amount:
 	<h:inputText value="#{searchController.queryAmount}"/> 
+	Sorted? <h:selectBooleanCheckbox value="#searchController.sortResults}"/>
 	<h:commandButton value="Balance Search" action="#{searchController.balanceSearch}"/><br/>
 	<h:commandButton value="List All Accounts" action="#{searchController.listAllAccounts}"/>
+	<br/><h:commandButton value="List All Savings Accounts" action="#{searchController.listAllSavingsAccounts }"/>
 </h:form>
 <br/>
 <ui:repeat value="#{searchController.results}" var="account">
@@ -31,7 +36,8 @@
 		<f:param name="id" value="#{account.owner.id}"></f:param>
 	</h:link>
 	<h:outputText value=" has a balance of #{account.balance}"/><br/>
-
+	<h:outputText value=" and an interest rate of #{account.interestRate }"
+	rendered="#{account['class'].simpleName eq 'SavingsAccount' }" />
 </ui:repeat>
 
 

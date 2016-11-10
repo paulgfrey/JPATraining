@@ -9,25 +9,34 @@
 
 <head>
     <title>Create a new account</title>
+    <h:outputScript library="javax.faces" name="jsf.js"></h:outputScript>
 </head>
 
 <body>
 <h1>Create A Bank Account (JPA)</h1>
 
 <h:form>
-Name: <h:inputText value="#{bankController.account.owner.name}" size="20"/><br/>
-Owner Date of Birth: 
+Name: <h:inputText value="#{bankController.owner.name}" size="20"/><br/>
+Owner Date of Birth:
 <h:inputText value="#{bankController.owner.dateOfBirth}">
 	<f:convertDateTime dateStyle="short" type="date"/>
-</h:inputText><br/>
+</h:inputText> <br/>
 Owner Address:
-<h:inputText value="#{bankController.owner.address}"/><br/>
-
-Phone number: 
-<h:inputText value="#{bankController.phone.areaCode}" size="5"/>
+<h:inputText value="#{bankController.owner.address}"/> <br/>
+Phone number: <h:inputText value="#{bankController.phone.areaCode}" size="5"/>
 <h:inputText value="#{bankController.phone.number}" size="20"/><br/>
-
 Balance: <h:inputText value="#{bankController.account.balance}" size="20"/><br/>
+
+Savings Account? <h:selectBooleanCheckbox value="#{bankController.savingsAccount}">
+	<f:ajax event="valueChange" render="interestElements"></f:ajax>
+</h:selectBooleanCheckbox><br/>
+<h:panelGroup id="interestElements">
+<h:outputText value="Interest Rate: " id="interestRateText"
+rendered="#{bankController.accountType eq 'SavingsAccount'}"/>
+<h:inputText value="#{bankController.account.interestRate}" size="5" id="interestRate"
+rendered="#{bankController.accountType eq 'SavingsAccount'}"/><br/>
+</h:panelGroup>
+
 <h:commandButton value="Add Account" action="#{bankController.createAccount}"/>
 </h:form>
 

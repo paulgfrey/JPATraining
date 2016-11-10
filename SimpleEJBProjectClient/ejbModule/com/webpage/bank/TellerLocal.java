@@ -5,6 +5,7 @@ import java.util.List;
 import com.webpage.entity.BankAccount;
 import com.webpage.entity.Owner;
 import com.webpage.entity.PhoneNumber;
+import com.webpage.entity.SavingsAccount;
 
 public interface TellerLocal {
 	public void createAccount(int id, String ownername, double balance);
@@ -16,7 +17,7 @@ public interface TellerLocal {
 	public void closeAccount(int id);
 	
 	public List<BankAccount> listAllAccounts();
-	public List<BankAccount> findWithBalance(double amount);
+	public List<BankAccount> findWithBalance(double amount, boolean sorted);
 	
 	public Owner findOwnerById(int ownerId);
 	
@@ -24,4 +25,6 @@ public interface TellerLocal {
 	
 	public List<BankAccount> findAccountForAreaCode(int areaCode);
 	public List<PhoneNumber> findNumbersForAmount(double amount);
+
+	public List<SavingsAccount> listAllSavingsAccounts();
 }
